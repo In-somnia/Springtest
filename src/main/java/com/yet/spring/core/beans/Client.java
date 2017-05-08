@@ -1,3 +1,5 @@
+package com.yet.spring.core.beans;
+
 public class Client {
     private long id;
     private String fullName;
