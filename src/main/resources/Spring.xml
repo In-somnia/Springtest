@@ -8,9 +8,18 @@
         <constructor-arg value="John Smith"/>
     </bean>
 
-    <bean id="eventLogger" class="com.yet.spring.core.loggers.ConsoleEventLogger"></bean>
+    <bean id="eventLogger" class="com.yet.spring.core.loggers.ConsoleEventLogger"/>
     <bean id="app" class="com.yet.spring.core.App">
         <constructor-arg ref="client"/>
         <constructor-arg ref="eventLogger"/>
+    </bean>
+    <bean id="formatter" class="java.time.format.DateTimeFormatter" factory-method="ofLocalizedDateTime">
+        <constructor-arg value="SHORT"/>
+    </bean>
+    <bean id="event" class="com.yet.spring.core.beans.Event" scope="prototype">
+        <constructor-arg>
+            <bean class="java.time.LocalDateTime" factory-method="now"/>
+        </constructor-arg>
+        <constructor-arg ref="formatter"/>
     </bean>
 </beans>
