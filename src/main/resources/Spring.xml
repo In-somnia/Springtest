@@ -5,12 +5,19 @@
        http://www.springframework.org/schema/beans/spring-beans-3.2.xsd">
     <import resource="Loggers.xml"/>
     <bean id="client" class="com.yet.spring.core.beans.Client">
-        <constructor-arg value="1"/>
-        <constructor-arg value="John Smith"/>
+        <constructor-arg index="0" value="${id}"/>
+        <constructor-arg value="${name}"/>
+        <property name="greeting" value="${greeting}"/>
     </bean>
     <bean id="app" class="com.yet.spring.core.App">
         <constructor-arg ref="client"/>
-        <constructor-arg ref="eventLogger"/>
+        <constructor-arg ref="consoleEventLogger"/>
+        <constructor-arg>
+            <map>
+                <entry key="INFO" value-ref="consoleEventLogger"/>
+                <entry key="ERROR" value-ref="combinedEventLogger"/>
+            </map>
+        </constructor-arg>
     </bean>
     <bean id="formatter" class="java.time.format.DateTimeFormatter" factory-method="ofLocalizedDateTime">
         <constructor-arg value="SHORT"/>
@@ -20,5 +27,14 @@
             <bean class="java.time.LocalDateTime" factory-method="now"/>
         </constructor-arg>
         <constructor-arg ref="formatter"/>
+    </bean>
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="locations">
+            <list>
+                <value>classpath:Client.properties</value>
+            </list>
+        </property>
+        <property name="ignoreResourceNotFound" value="true"/>
+        <property name="systemPropertiesModeName" value="SYSTEM_PROPERTIES_MODE_OVERRIDE"/>
     </bean>
 </beans>
