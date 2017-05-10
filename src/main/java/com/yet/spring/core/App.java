@@ -4,6 +4,7 @@ import com.yet.spring.core.beans.Client;
 import com.yet.spring.core.beans.Event;
 import com.yet.spring.core.loggers.ConsoleEventLogger;
 import org.springframework.context.ApplicationContext;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class App {
@@ -16,7 +17,7 @@ public class App {
     }
 
     public static void main(String[] args) {
-        ApplicationContext context = new ClassPathXmlApplicationContext("Spring.xml");
+        ConfigurableApplicationContext context = new ClassPathXmlApplicationContext("Spring.xml");
         App app = (App)context.getBean("app");
 
         Event event = context.getBean(Event.class);
@@ -24,6 +25,21 @@ public class App {
 
         event = context.getBean(Event.class);
         app.logEvent(event, "Some message for 2");
+
+        event = context.getBean(Event.class);
+        app.logEvent(event, "Some message for 3");
+
+        event = context.getBean(Event.class);
+        app.logEvent(event, "Some message for 4");
+
+        event = context.getBean(Event.class);
+        app.logEvent(event, "Some message for 5");
+
+        event = context.getBean(Event.class);
+        app.logEvent(event, "Some message for 6");
+
+        context.close();
+
     }
 
     private void logEvent(Event event, String msg) {
